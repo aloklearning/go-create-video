@@ -27,23 +27,23 @@ func (handler *RouterHandler) GetAllVideos(w http.ResponseWriter, r *http.Reques
 	json.NewEncoder(w).Encode(videos)
 }
 
-// func CreateVideo(w http.ResponseWriter, r *http.Request) {
-// 	var videoData source.Video
+func (handler *RouterHandler) CreateVideo(w http.ResponseWriter, r *http.Request) {
+	var videoData source.Video
 
-// 	w.Header().Set("Content-Type", "application/json")
-// 	_ = json.NewDecoder(r.Body).Decode(&videoData)
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewDecoder(r.Body).Decode(&videoData)
 
-// 	newVideoList, errorMessage := source.Create(handler.Database, videoData)
-// 	if errorMessage != "" {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+	newVideoList, errorMessage := source.Create(handler.Database, videoData)
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
 
-// 		return
-// 	}
+		return
+	}
 
-// 	w.WriteHeader(http.StatusCreated)
-// 	json.NewEncoder(w).Encode(newVideoList)
-// }
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(newVideoList)
+}
 
 // func GetAllAnnotations(w http.ResponseWriter, r *http.Request) {
 // 	err := r.ParseMultipartForm(32 << 20)

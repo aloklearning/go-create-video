@@ -4,6 +4,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
+
+	"github.com/google/uuid"
 )
 
 func AllVideos(db *sql.DB) (*[]Video, string) {
@@ -34,18 +37,46 @@ func AllVideos(db *sql.DB) (*[]Video, string) {
 	return &videos, ""
 }
 
-// func Create(db *sql.DB, videoData Video) (*[]Video, string) {
-// 	videoData.ID = uuid.NewString()
-// 	videoData.METADATA.CREATEDAT = time.Now()
-// 	videoData.METADATA.MODIFIEDAT = time.Now()
+func Create(db *sql.DB, videoData Video) (*[]Video, string) {
+	videoData.ID = uuid.NewString()
+	videoData.METADATA.CREATEDAT = time.Now()
+	videoData.METADATA.MODIFIEDAT = time.Now()
 
-// 	if videoData.ANNOTATIONS[0].ENDTIME > videoData.METADATA.DURATION {
-// 		errMessage := fmt.Sprintf("Your annotations end time %d is out of bounds of duration of the video %d",
-// 			videoData.ANNOTATIONS[0].ENDTIME, videoData.METADATA.DURATION)
-// 		return nil, errMessage
-// 	}
+	// Adding UUID to each annotation from backend
+	for _, annotation := range videoData.ANNOTATIONS {
+		annotation.ID = uuid.NewString()
+	}
 
-// }
+	// To be able to insert the data into the table for the below structs
+	metadataJSON, _ := json.Marshal(videoData.METADATA)
+	annotationsJSON, _ := json.Marshal(videoData.ANNOTATIONS)
+
+	if videoData.ANNOTATIONS[0].ENDTIME > videoData.METADATA.DURATION {
+		errMessage := fmt.Sprintf("Your annotations end time %d is out of bounds of duration of the video %d",
+			videoData.ANNOTATIONS[0].ENDTIME, videoData.METADATA.DURATION)
+		return nil, errMessage
+	}
+
+	// Getting all the video data for validation
+	finalVideoData, errorMessage := AllVideos(db)
+	if errorMessage != "" {
+		return nil, errorMessage
+	}
+
+	for _, data := range *finalVideoData {
+		// Securing duplicate entries
+		if videoData.URL == data.URL {
+			return nil, fmt.Sprintf("Data already exists in the table for the URL: %s", data.URL)
+		}
+
+		_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, categories) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
+		if err != nil {
+			return nil, err.Error()
+		}
+	}
+
+	return finalVideoData, ""
+}
 
 // func AllAnnotations(videoURL string) ([]Annotation, string) {
 // 	for _, video := range videos {
