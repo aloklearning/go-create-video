@@ -43,8 +43,8 @@ func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 	videoData.METADATA.MODIFIEDAT = time.Now()
 
 	// Adding UUID to each annotation from backend
-	for _, annotation := range videoData.ANNOTATIONS {
-		annotation.ID = uuid.NewString()
+	for index, _ := range videoData.ANNOTATIONS {
+		videoData.ANNOTATIONS[index].ID = uuid.NewString()
 	}
 
 	// To be able to insert the data into the table for the below structs
@@ -84,7 +84,7 @@ func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 	return finalVideoData, ""
 }
 
-func AllAnnotations(db *sql.DB, videoURL string) (Video, string) {
+func AllAnnotations(db *sql.DB, videoURL string) ([]Annotation, string) {
 	var video Video
 	var metadataJSON []byte
 	var annotationsJSON []byte
@@ -93,13 +93,13 @@ func AllAnnotations(db *sql.DB, videoURL string) (Video, string) {
 		Scan(&video.ID, &video.URL, &metadataJSON, &annotationsJSON)
 	if err != nil {
 		fmt.Print(err.Error())
-		return Video{}, fmt.Sprintf("No such record found in the data for the URL: '%s'", videoURL)
+		return nil, fmt.Sprintf("No such record found in the data for the URL: '%s'", videoURL)
 	}
 
 	json.Unmarshal(metadataJSON, &video.METADATA)
 	json.Unmarshal(annotationsJSON, &video.ANNOTATIONS)
 
-	return video, ""
+	return video.ANNOTATIONS, ""
 }
 
 // func AddAdditionalNotes(videoURL, annotationType, notes string) (*Video, string) {
@@ -162,24 +162,24 @@ func AllAnnotations(db *sql.DB, videoURL string) (Video, string) {
 // 	return nil, "No video exists to show the annotations details"
 // }
 
-func DeleteCompleteVideoData(db *sql.DB, videoURL string) (*[]Video, string) {
+func DeleteCompleteVideoData(db *sql.DB, videoURL string) (string, string) {
 	// DELETE Meta Data
 	_, metadataError := db.Exec("DELETE FROM metadata WHERE author in (SELECT metadata.author FROM metadata INNER JOIN videos ON metadata.author = videos.metadata WHERE video_url = ?)", videoURL)
 	if metadataError != nil {
-		return nil, fmt.Sprintf("Metadata deletion error %s", metadataError.Error())
+		return "", fmt.Sprintf("Metadata deletion error %s", metadataError.Error())
 	}
 
 	// DELETE Annotations
 	_, annnotationError := db.Exec("DELETE FROM annotations WHERE type in (SELECT annotations.type FROM annotations INNER JOIN videos ON annotations.type = videos.annotations WHERE video_url = ?)", videoURL)
 	if annnotationError != nil {
-		return nil, fmt.Sprintf("Annotation deletion error %s", annnotationError.Error())
+		return "", fmt.Sprintf("Annotation deletion error %s", annnotationError.Error())
 	}
 
 	// DELETE Videos
 	_, videosError := db.Exec("DELETE FROM videos WHERE video_url = ?", videoURL)
 	if videosError != nil {
-		return nil, fmt.Sprintf("Video deletion error %s", videosError.Error())
+		return "", fmt.Sprintf("Video deletion error %s", videosError.Error())
 	}
 
-	return nil, "No video found to be deleted from the data"
+	return "{Success: Video deleted successfully}", ""
 }
