@@ -78,15 +78,20 @@ func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 	return finalVideoData, ""
 }
 
-// func AllAnnotations(videoURL string) ([]Annotation, string) {
-// 	for _, video := range videos {
-// 		if videoURL == video.URL {
-// 			return video.ANNOTATIONS, ""
-// 		}
-// 	}
+func AllAnnotations(db *sql.DB, videoURL string) ([]Annotation, string) {
+	videoRecords, errorMessage := AllVideos(db)
+	if errorMessage != "" {
+		return nil, errorMessage
+	}
 
-// 	return nil, "No video exists to show the annotations details"
-// }
+	for _, videoRecord := range *videoRecords {
+		if videoURL == videoRecord.URL {
+			return videoRecord.ANNOTATIONS, ""
+		}
+	}
+
+	return nil, fmt.Sprintf("No video exists with searched URL: '%s' to show the annotations details", videoURL)
+}
 
 // func AddAdditionalNotes(videoURL, annotationType, notes string) (*Video, string) {
 // 	if notes != "" || len(notes) > 0 {
