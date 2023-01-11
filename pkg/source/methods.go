@@ -41,3 +41,22 @@ func AllAnnotations(videoURL string) ([]Annotation, string) {
 
 	return nil, "No video exists to show the annotations details"
 }
+
+func AddAdditionalNotes(videoURL, annotationType, notes string) (*Video, string) {
+	for _, video := range videos {
+		if videoURL == video.URL {
+			for index, annotation := range video.ANNOTATIONS {
+				if annotationType == annotation.TYPE {
+					annotation.ADDITIONALNOTES = append(annotation.ADDITIONALNOTES, notes)
+
+					video.ANNOTATIONS[index].ADDITIONALNOTES = annotation.ADDITIONALNOTES
+					return &video, ""
+				}
+			}
+
+			return nil, "No annotation type was found to add additional notes"
+		}
+	}
+
+	return nil, "No video exists to show the annotations details"
+}

@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	source "go-create-video/pkg/source"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func GetAllVideos(w http.ResponseWriter, r *http.Request) {
@@ -35,13 +33,16 @@ func CreateVideo(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllAnnotations(w http.ResponseWriter, r *http.Request) {
-	//var annotations []source.Annotation
-	urlParam := mux.Vars(r)
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
-	annotations, errorMessage := source.AllAnnotations(urlParam["url"])
+	annotations, errorMessage := source.AllAnnotations(r.FormValue("video_url"))
 	if errorMessage != "" {
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
 
 		return
@@ -49,4 +50,25 @@ func GetAllAnnotations(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(annotations)
+}
+
+func UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	updatedVideoData, errorMessage := source.AddAdditionalNotes(r.FormValue("video_url"), r.FormValue("type"), r.FormValue("notes"))
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(updatedVideoData)
 }

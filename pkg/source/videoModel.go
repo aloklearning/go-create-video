@@ -22,9 +22,9 @@ type Metadata struct {
 }
 
 type Annotation struct {
-	STARTTIME       int    `json:"start_time"`
-	ENDTIME         int    `json:"end_time"`
-	TYPE            string `json:"type"`
-	ANNOTATION      string `json:"annotation"`
-	ADDITIONALNOTES string `json:"additional_notes"`
+	STARTTIME       int      `json:"start_time"`
+	ENDTIME         int      `json:"end_time"`
+	TYPE            string   `json:"type"`
+	ANNOTATION      string   `json:"annotation"`
+	ADDITIONALNOTES []string `json:"additional_notes"`
 }
