@@ -101,3 +101,15 @@ func DeleteAnnotationData(videoURL, annotationType string) (*Video, string) {
 
 	return nil, "No video exists to show the annotations details"
 }
+
+func DeleteVideoData(videoURL string) (*[]Video, string) {
+	for index, video := range videos {
+		if videoURL == video.URL {
+			videos = append(videos[:index], videos[index+1:]...)
+
+			return &videos, ""
+		}
+	}
+
+	return nil, "No video found to be deleted from the data"
+}

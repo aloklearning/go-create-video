@@ -19,5 +19,6 @@ func main() {
 	router.HandleFunc("/api/v1/updateAdditionalNotes", routes.UpdateAnnotationAdditionalNotes).Methods("PUT")
 	router.HandleFunc("/api/v1/updateAnnotation/{video_url}/{type}", routes.UpdateAnnotation).Methods("PUT")
 	router.HandleFunc("/api/v1/deleteAnnotation", routes.DeleteAnnotation).Methods("DELETE")
+	router.HandleFunc("/api/v1/deleteVideo", routes.DeleteVideo).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
