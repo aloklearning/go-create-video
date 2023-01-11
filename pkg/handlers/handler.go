@@ -63,7 +63,7 @@ func UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
 
 	updatedVideoData, errorMessage := source.AddAdditionalNotes(r.FormValue("video_url"), r.FormValue("type"), r.FormValue("notes"))
 	if errorMessage != "" {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
 
 		return
