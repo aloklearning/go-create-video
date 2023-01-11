@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	source "go-create-video/pkg/source"
+	source "go-create-video/pkg/src"
 	"net/http"
 
 	"github.com/gorilla/mux"
