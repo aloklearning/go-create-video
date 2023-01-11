@@ -8,7 +8,7 @@ import (
 )
 
 func DBConnect() (*sql.DB, string) {
-	db, err := sql.Open("sqlite3", "./videos.db")
+	db, err := sql.Open("sqlite3", "../pkg/db/videos.db")
 	if err != nil {
 		return nil, fmt.Sprintf("Failed to connect to the DB due to %v", err)
 	}
@@ -30,11 +30,22 @@ func CreateTables(db *sql.DB) string {
 	}
 
 	// Create Videos Table
-	_, videosError := db.Exec("CREATE TABLE IF NOT EXISTS videos (video_id TEXT PRIMARY KEY, video_url TEXT, metadata TEXT, categories TEXT)")
+	_, videosError := db.Exec("CREATE TABLE IF NOT EXISTS videos (video_id TEXT PRIMARY KEY, video_url TEXT, metadata TEXT, annotations TEXT)")
 	if videosError != nil {
 		return fmt.Sprintf("Video Table Creation Table Error: %v", videosError.Error())
 	}
 
 	fmt.Printf("Table Created Successfully\n")
+	return ""
+}
+
+// In case we are required to drop the table
+func DropTable(db *sql.DB) string {
+	_, videosError := db.Exec("DROP TABLE IF EXISTS videos")
+	if videosError != nil {
+		return fmt.Sprintf("Video Table Removal Error: %v", videosError.Error())
+	}
+
+	fmt.Printf("Table Dropped Successfully\n")
 	return ""
 }

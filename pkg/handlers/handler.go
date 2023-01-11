@@ -61,11 +61,11 @@ func (handler *RouterHandler) GetAllAnnotations(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(annotations)
 }
 
-// func UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
+// func (handler *RouterHandler) UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
 // 	w.Header().Set("Content-Type", "application/json")
 
 // 	err := r.ParseMultipartForm(32 << 20)
@@ -75,6 +75,7 @@ func (handler *RouterHandler) GetAllAnnotations(w http.ResponseWriter, r *http.R
 // 	}
 
 // 	updatedVideoData, errorMessage := source.AddAdditionalNotes(
+// 		handler.Database,
 // 		r.FormValue("video_url"),
 // 		r.FormValue("type"),
 // 		r.FormValue("notes"),
@@ -141,24 +142,24 @@ func (handler *RouterHandler) GetAllAnnotations(w http.ResponseWriter, r *http.R
 // 	json.NewEncoder(w).Encode(updatedVideoData)
 // }
 
-// func DeleteVideo(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Content-Type", "application/json")
+func (handler *RouterHandler) DeleteVideo(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 
-// 	err := r.ParseMultipartForm(32 << 20)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		return
-// 	}
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
-// 	updatedVideoData, errorMessage := source.DeleteVideoData(r.FormValue("video_url"))
+	updatedVideoData, errorMessage := source.DeleteCompleteVideoData(handler.Database, r.FormValue("video_url"))
 
-// 	if errorMessage != "" {
-// 		w.WriteHeader(http.StatusNotFound)
-// 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
 
-// 		return
-// 	}
+		return
+	}
 
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(updatedVideoData)
-// }
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(updatedVideoData)
+}

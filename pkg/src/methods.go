@@ -58,39 +58,48 @@ func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 	}
 
 	// Getting all the video data for validation
-	finalVideoData, errorMessage := AllVideos(db)
-	if errorMessage != "" {
-		return nil, errorMessage
+	// finalVideoData, errorMessage := AllVideos(db)
+	// if errorMessage != "" {
+	// 	return nil, errorMessage
+	// }
+
+	// for _, data := range *finalVideoData {
+	// 	// Securing duplicate entries
+	// 	if videoData.URL == data.URL {
+	// 		return nil, fmt.Sprintf("Data already exists in the table for the URL: %s", data.URL)
+	// 	}
+
+	// 	_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, category) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
+	// 	if err != nil {
+	// 		return nil, err.Error()
+	// 	}
+	// }
+
+	_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, annotations) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
+	if err != nil {
+		return nil, err.Error()
 	}
 
-	for _, data := range *finalVideoData {
-		// Securing duplicate entries
-		if videoData.URL == data.URL {
-			return nil, fmt.Sprintf("Data already exists in the table for the URL: %s", data.URL)
-		}
-
-		_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, categories) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
-		if err != nil {
-			return nil, err.Error()
-		}
-	}
-
+	finalVideoData, _ := AllVideos(db)
 	return finalVideoData, ""
 }
 
-func AllAnnotations(db *sql.DB, videoURL string) ([]Annotation, string) {
-	videoRecords, errorMessage := AllVideos(db)
-	if errorMessage != "" {
-		return nil, errorMessage
+func AllAnnotations(db *sql.DB, videoURL string) (Video, string) {
+	var video Video
+	var metadataJSON []byte
+	var annotationsJSON []byte
+
+	err := db.QueryRow("SELECT video_id, video_url, metadata, annotations FROM videos WHERE video_url = ?", videoURL).
+		Scan(&video.ID, &video.URL, &metadataJSON, &annotationsJSON)
+	if err != nil {
+		fmt.Print(err.Error())
+		return Video{}, fmt.Sprintf("No such record found in the data for the URL: '%s'", videoURL)
 	}
 
-	for _, videoRecord := range *videoRecords {
-		if videoURL == videoRecord.URL {
-			return videoRecord.ANNOTATIONS, ""
-		}
-	}
+	json.Unmarshal(metadataJSON, &video.METADATA)
+	json.Unmarshal(annotationsJSON, &video.ANNOTATIONS)
 
-	return nil, fmt.Sprintf("No video exists with searched URL: '%s' to show the annotations details", videoURL)
+	return video, ""
 }
 
 // func AddAdditionalNotes(videoURL, annotationType, notes string) (*Video, string) {
@@ -153,14 +162,24 @@ func AllAnnotations(db *sql.DB, videoURL string) ([]Annotation, string) {
 // 	return nil, "No video exists to show the annotations details"
 // }
 
-// func DeleteVideoData(videoURL string) (*[]Video, string) {
-// 	for index, video := range videos {
-// 		if videoURL == video.URL {
-// 			videos = append(videos[:index], videos[index+1:]...)
+func DeleteCompleteVideoData(db *sql.DB, videoURL string) (*[]Video, string) {
+	// DELETE Meta Data
+	_, metadataError := db.Exec("DELETE FROM metadata WHERE author in (SELECT metadata.author FROM metadata INNER JOIN videos ON metadata.author = videos.metadata WHERE video_url = ?)", videoURL)
+	if metadataError != nil {
+		return nil, fmt.Sprintf("Metadata deletion error %s", metadataError.Error())
+	}
 
-// 			return &videos, ""
-// 		}
-// 	}
+	// DELETE Annotations
+	_, annnotationError := db.Exec("DELETE FROM annotations WHERE type in (SELECT annotations.type FROM annotations INNER JOIN videos ON annotations.type = videos.annotations WHERE video_url = ?)", videoURL)
+	if annnotationError != nil {
+		return nil, fmt.Sprintf("Annotation deletion error %s", annnotationError.Error())
+	}
 
-// 	return nil, "No video found to be deleted from the data"
-// }
+	// DELETE Videos
+	_, videosError := db.Exec("DELETE FROM videos WHERE video_url = ?", videoURL)
+	if videosError != nil {
+		return nil, fmt.Sprintf("Video deletion error %s", videosError.Error())
+	}
+
+	return nil, "No video found to be deleted from the data"
+}
