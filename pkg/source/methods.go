@@ -7,28 +7,19 @@ import (
 var videos []Video
 
 func AllVideos() *[]Video {
-	videoList := append(videos, Video{
-		ID:  uuid.NewString(),
-		URL: "Random Video URL",
-		METADATA: Metadata{
-			AUTHOR: "Alok",
-		},
-		ANNOTATIONS: []Annotation{
-			{
-				TYPE:            "None",
-				ANNOTATION:      "Some Annotation",
-				ADDITIONALNOTES: "Additional Notes",
-			},
-		},
-	})
-
-	return &videoList
+	return &videos
 }
 
 func Create(videoData Video) *[]Video {
 	videoData.ID = uuid.NewString()
 
-	videos := append(videos, videoData)
+	for _, video := range videos {
+		if video.URL == videoData.URL {
+			return &videos
+		}
+	}
+
+	videos = append(videos, videoData)
 
 	return &videos
 }
