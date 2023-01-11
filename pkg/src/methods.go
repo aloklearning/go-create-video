@@ -57,30 +57,37 @@ func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 		return nil, errMessage
 	}
 
+	// Preventing duplicate entry
 	// Getting all the video data for validation
-	// finalVideoData, errorMessage := AllVideos(db)
-	// if errorMessage != "" {
-	// 	return nil, errorMessage
-	// }
+	previousVideoData, errorMessage := AllVideos(db)
+	if errorMessage != "" {
+		return nil, errorMessage
+	}
 
-	// for _, data := range *finalVideoData {
-	// 	// Securing duplicate entries
-	// 	if videoData.URL == data.URL {
-	// 		return nil, fmt.Sprintf("Data already exists in the table for the URL: %s", data.URL)
-	// 	}
+	if len(*previousVideoData) > 0 {
+		for _, video := range *previousVideoData {
+			if videoData.URL == video.URL {
+				return nil, fmt.Sprintf("Duplicate record for the URL '%s' found", videoData.URL)
+			}
+		}
 
-	// 	_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, category) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
-	// 	if err != nil {
-	// 		return nil, err.Error()
-	// 	}
-	// }
+		_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, annotations) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
+		if err != nil {
+			return nil, err.Error()
+		}
+	}
 
 	_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, annotations) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
 	if err != nil {
 		return nil, err.Error()
 	}
 
-	finalVideoData, _ := AllVideos(db)
+	// Getting all the video data for validation
+	finalVideoData, errorMessage := AllVideos(db)
+	if errorMessage != "" {
+		return nil, errorMessage
+	}
+
 	return finalVideoData, ""
 }
 
