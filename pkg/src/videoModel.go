@@ -22,6 +22,7 @@ type Metadata struct {
 }
 
 type Annotation struct {
+	ID              string   `json:"annotation_id"`
 	STARTTIME       int      `json:"start_time"`
 	ENDTIME         int      `json:"end_time"`
 	TYPE            string   `json:"type"`

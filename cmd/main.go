@@ -22,6 +22,12 @@ func main() {
 
 	defer vidoeDB.Close()
 
+	err := db.CreateTables(vidoeDB)
+	if err != "" {
+		fmt.Printf("%s", err)
+		return
+	}
+
 	router := mux.NewRouter()
 	routerHandler := &routes.RouterHandler{Database: vidoeDB}
 

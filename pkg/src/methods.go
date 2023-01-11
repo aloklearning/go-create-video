@@ -2,22 +2,42 @@ package source
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 )
 
 func AllVideos(db *sql.DB) (*[]Video, string) {
 	var videos []Video
 
-	err := db.QueryRow("Select * FROM videos")
+	rows, err := db.Query("Select * FROM videos")
 	if err != nil {
-		return nil, fmt.Sprintf("%v", err.Err())
+		return nil, fmt.Sprintf("%v", err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var video Video
+		var metadataJSON []byte
+		var annotationsJSON []byte
+
+		err := rows.Scan(&video.ID, &video.URL, &metadataJSON, &annotationsJSON)
+		if err != nil {
+			return nil, fmt.Sprintf("%v", err.Error())
+		}
+
+		json.Unmarshal(metadataJSON, &video.METADATA)
+		json.Unmarshal(annotationsJSON, &video.ANNOTATIONS)
+
+		videos = append(videos, video)
 	}
 
 	return &videos, ""
 }
 
-// func Create(videoData Video) (*[]Video, string) {
+// func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 // 	videoData.ID = uuid.NewString()
+// 	videoData.METADATA.CREATEDAT = time.Now()
+// 	videoData.METADATA.MODIFIEDAT = time.Now()
 
 // 	if videoData.ANNOTATIONS[0].ENDTIME > videoData.METADATA.DURATION {
 // 		errMessage := fmt.Sprintf("Your annotations end time %d is out of bounds of duration of the video %d",
@@ -25,15 +45,6 @@ func AllVideos(db *sql.DB) (*[]Video, string) {
 // 		return nil, errMessage
 // 	}
 
-// 	for _, video := range videos {
-// 		if video.URL == videoData.URL {
-// 			return &videos, ""
-// 		}
-// 	}
-
-// 	videos = append(videos, videoData)
-
-// 	return &videos, ""
 // }
 
 // func AllAnnotations(videoURL string) ([]Annotation, string) {

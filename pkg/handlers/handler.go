@@ -33,7 +33,7 @@ func (handler *RouterHandler) GetAllVideos(w http.ResponseWriter, r *http.Reques
 // 	w.Header().Set("Content-Type", "application/json")
 // 	_ = json.NewDecoder(r.Body).Decode(&videoData)
 
-// 	newVideoList, errorMessage := source.Create(videoData)
+// 	newVideoList, errorMessage := source.Create(handler.Database, videoData)
 // 	if errorMessage != "" {
 // 		w.WriteHeader(http.StatusBadRequest)
 // 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
