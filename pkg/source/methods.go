@@ -81,3 +81,23 @@ func UpdateAnnotationDetails(videoURL, annotationType string, newAnnotation Anno
 
 	return nil, "No video exists to show the annotations details"
 }
+
+func DeleteAnnotationData(videoURL, annotationType string) (*Video, string) {
+	for videoIndex, video := range videos {
+		if videoURL == video.URL {
+			for index, annotation := range video.ANNOTATIONS {
+				if annotationType == annotation.TYPE {
+					video.ANNOTATIONS = append(video.ANNOTATIONS[:index], video.ANNOTATIONS[index+1:]...)
+
+					// To keep the updated element in the main data
+					videos[videoIndex] = video
+					return &video, ""
+				}
+			}
+
+			return nil, "No annotation type was found to delete the annotation"
+		}
+	}
+
+	return nil, "No video exists to show the annotations details"
+}

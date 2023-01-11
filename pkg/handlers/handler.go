@@ -104,3 +104,28 @@ func UpdateAnnotation(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(updatedVideoData)
 }
+
+func DeleteAnnotation(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	updatedVideoData, errorMessage := source.DeleteAnnotationData(
+		r.FormValue("video_url"),
+		r.FormValue("type"),
+	)
+
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(updatedVideoData)
+}
