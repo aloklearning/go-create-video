@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	source "go-create-video/pkg/source"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func GetAllVideos(w http.ResponseWriter, r *http.Request) {
@@ -61,7 +63,12 @@ func UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	updatedVideoData, errorMessage := source.AddAdditionalNotes(r.FormValue("video_url"), r.FormValue("type"), r.FormValue("notes"))
+	updatedVideoData, errorMessage := source.AddAdditionalNotes(
+		r.FormValue("video_url"),
+		r.FormValue("type"),
+		r.FormValue("notes"),
+	)
+
 	if errorMessage != "" {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
@@ -70,5 +77,30 @@ func UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(updatedVideoData)
+}
+
+func UpdateAnnotation(w http.ResponseWriter, r *http.Request) {
+	var annotationDetails source.Annotation
+	w.Header().Set("Content-Type", "application/json")
+
+	paramData := mux.Vars(r)
+
+	_ = json.NewDecoder(r.Body).Decode(&annotationDetails)
+
+	updatedVideoData, errorMessage := source.UpdateAnnotationDetails(
+		paramData["video_url"],
+		paramData["type"],
+		annotationDetails,
+	)
+
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(updatedVideoData)
 }

@@ -64,3 +64,20 @@ func AddAdditionalNotes(videoURL, annotationType, notes string) (*Video, string)
 
 	return nil, "Empty notes were passed. Please add and try again"
 }
+
+func UpdateAnnotationDetails(videoURL, annotationType string, newAnnotation Annotation) (*Video, string) {
+	for _, video := range videos {
+		if videoURL == video.URL {
+			for index, annotation := range video.ANNOTATIONS {
+				if annotationType == annotation.TYPE {
+					video.ANNOTATIONS[index] = newAnnotation
+					return &video, ""
+				}
+			}
+
+			return nil, "No annotation type was found to update the annotation"
+		}
+	}
+
+	return nil, "No video exists to show the annotations details"
+}
