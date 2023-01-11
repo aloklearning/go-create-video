@@ -2,6 +2,10 @@ package source
 
 import "time"
 
+type Error struct {
+	ErrorMessage string `json:"error"`
+}
+
 type Video struct {
 	ID          string       `json:"video_id"`
 	URL         string       `json:"video_url"`
