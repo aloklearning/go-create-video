@@ -22,5 +22,6 @@ RUN go build -o /go-create-video
 
 EXPOSE 8080
 
+# Command which is being used to run after the container has been started
 CMD ["/go-create-video"]
 
