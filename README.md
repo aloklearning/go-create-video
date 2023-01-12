@@ -114,6 +114,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 ## Links
 
 - Install go via [Official Website of Go](https://go.dev/)
+- [Get Started With Docker](https://www.youtube.com/watch?v=iqqDU2crIEQ&t=1002s)
 - [Data Models and Its Type in DBMS](https://afteracademy.com/blog/what-is-data-model-in-dbms-and-what-are-its-types/)
 - Learn more about the famous go sqlite package [go-sqlite3](https://pkg.go.dev/github.com/mattn/go-sqlite3)
 
