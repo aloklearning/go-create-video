@@ -164,7 +164,7 @@ The data given here is to give you a generic idea and how to interact with the A
         ]
     }
     ```
-    - On successful submission of the data, you will recieve an updated video annotations data with `STATUS_OK 200`:
+    - On successful submission of the data, you will recieve an updated video annotations along with the relevent video data with `STATUS_OK 200`:
     ```json
     {
         "video_id": "d62a7dc2-03e3-402f-b59f-6e88e8279e60",
