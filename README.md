@@ -11,25 +11,33 @@
 - This project comes with a persistant lightweighted database `SQLite3`.
 - The **data model** of the database will be found [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png).
 
-## Project Checklists
+## Features
 
 This project checks the following features:
-- [x] Basic `API Key` authentication in place for all the APIs.
-- [x] Have a peristant database `SQLite3`.
-- [x] Creating the video with the relevant `metadata` and `annotations`.
-- [x] List all `annotations` related to the Video.
-- [x] Add `additional notes` by specifying the `annotation type` for the relevant video.
-- [x] Update the `annotation details` for the relevant video.
-- [x] Deleting the `annotation` for the relevant video.
-- [x] Deleting the `video` from the system.
-- [x] Sending you an error when the user tries to:
-    - [x] Add duplicate video identified by the `video_url`
-    - [x] Add `annotation` with **out of bound** timings of the provided video duration.
-    - [x] Get all the `annotations` without providing a proper `video_url`.
-    - [x] Update `additional details` without providing the necessary keys: `video_url`, `type`, `notes`.
-    - [x] Update an `annotation details` without providing the necessary params: `video_url`, `type`.
-    - [x] Deleting an `annotation` without providing the necessary keys: `video_url`, `type`.
-    - [x] Deleting a `video` without providing a valid `video_url`.
+- Basic `API Key` authentication in place for all the APIs.
+- Have a peristant database `SQLite3`.
+- Creating the video with the relevant `metadata` and `annotations`.
+- List all `annotations` related to the Video.
+- Add `additional notes` by specifying the `annotation type` for the relevant video.
+- Update the `annotation details` for the relevant video.
+- Deleting the `annotation` for the relevant video.
+- Deleting the `video` from the system.
+- Sending you an error when the user tries to:
+    - Add duplicate video identified by the `video_url`
+    - Add `annotation` with **out of bound** timings of the provided video duration.
+    - Get all the `annotations` without providing a proper `video_url`.
+    - Update `additional details` without providing the necessary keys: `video_url`, `type`, `notes`.
+    - Update an `annotation details` without providing the necessary params: `video_url`, `type`.
+    - Deleting an `annotation` without providing the necessary keys: `video_url`, `type`.
+    - Deleting a `video` without providing a valid `video_url`.
+
+## Project Checklists
+
+The project has the following as per the requirements:
+
+- [x] A data model of the database. You can find it [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png).
+- [x] Restful API to manage videos and annotations with basic API security. The details has been shared in this README as well as in the [ROUTES README]((https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers))
+- [x] Provide a docker image to run your solution. The image has been hosted successfully on the [Docker Hub](https://hub.docker.com/). Here is the how you can get my image and run the application on your system: `docker pull alokkumar830/go-create-video:latest` 
 
 ## Getting Started
 
