@@ -72,8 +72,21 @@ All the assumptions has been made around the agenda of *achieving the work with 
 ```
 - There has been assumption that a very basic API Key authentication implemented in this project will work do the job, as we want to see the API peforming different set of jobs. It is nothing but a stored key based check with the user passing the key in the `Header` with the key `api_key`. More details will be found in the [Routes README](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers).
 - `Additional Notes` has been assumed as a part of `Annotations` related to a particular video. Further more it has been assumed that it is a `slice/list/array` of the notes, which could be altered by adding a new item not updating the existing item in the list.
+- Assumptions has been made that there is no hard neccessity of adding test cases, which save a bit of time while completing the project.
 - Assumptions has been made around not having a **complete** `Relational Database`. The tables were created having the idea to be able to store the data and to be a part of the video. Although the data model will explain how it has been linked. I have talked more about this thing in the [Improvement Section]() below.
 - It has been assumed that the by `Annotation Details` addition we mean the whole `Annotation Details` added to the **list/slice/array** of the videos items and **not** the specific items inside the Annotation Details.
+
+## Improvements
+
+- It is a universal truth that the project can always be improved. And while working with the this project, I do have some improvements pointers, which I believe could make the project more `robuts`, `clean`, and `efficient`. 
+- Due to the time contraint, it was a bit difficult to achieve all of them, but if provided time, I could talk or add those suggestions in the future:
+    - **Error responses/messages** in a some places could be added and in some places could be improved with a better `status code handling`.
+    - It is very much evident that the project doesn't have any **test cases** running around the project. It can be added to things like:
+        - Handlers
+        - DB Connection Check
+        - Methods
+    - Database tables like `annotations` could have been added with a `FOREIGN KEY` relationship, making the `DELETE` and `UPDATE` function handled more from the SQL query side, rather a bit workaround.
+    - More convenient **vairable names** and a bit of using **functional programming** could have save some repitition in the project. Although I have tried using the best and convenient name possible and tried not to use a lot of duplicate functions or logics.
 
 
 ## License
