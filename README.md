@@ -58,8 +58,10 @@ For best maintainence of details, the routes section has a separate README which
 
 ## Assumptions
 
+All the assumptions has been made around the agenda of *achieving the work with more efficiency*:
+
 - The creation of the video and the annotations has been done in a single task, assuming it to be the part of the video itself. It can be added by submitting the full payload with the required data as mentioned in the [Routes README](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers)
-- For the ease of computations and processing time related data, such as, `total_duration`, `start_time`, `end_time` are accepted as `INTEGER`. Further more, they have to be submitted in seconds data. For example, if you have a video having 5 minutes as a total duration, so you will submit the details `300` which in seconds equals **5 minutes**:
+- It has been assumed that for the ease of computations and processing time related data, such as, `total_duration`, `start_time`, `end_time` can be accepted as `INTEGER`. Furthermore, they have to be submitted in **seconds**. For example, if you have a video having 5 minutes as a total duration, so you will submit the details `300` which in seconds equals **5 minutes** (*same goes with the `start_time` and `end_time`*):
 ```json
 {
     "video_url": "Some URL",
@@ -68,7 +70,11 @@ For best maintainence of details, the routes section has a separate README which
     }
 }
 ```
-    - Same goes for `start_time` and `end_time`.
+- There has been assumption that a very basic API Key authentication implemented in this project will work do the job, as we want to see the API peforming different set of jobs. It is nothing but a stored key based check with the user passing the key in the `Header` with the key `api_key`. More details will be found in the [Routes README](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers).
+- `Additional Notes` has been assumed as a part of `Annotations` related to a particular video. Further more it has been assumed that it is a `slice/list/array` of the notes, which could be altered by adding a new item not updating the existing item in the list.
+- Assumptions has been made around not having a **complete** `Relational Database`. The tables were created having the idea to be able to store the data and to be a part of the video. Although the data model will explain how it has been linked. I have talked more about this thing in the [Improvement Section]() below.
+- It has been assumed that the by `Annotation Details` addition we mean the whole `Annotation Details` added to the **list/slice/array** of the videos items and **not** the specific items inside the Annotation Details.
+
 
 ## License
 
