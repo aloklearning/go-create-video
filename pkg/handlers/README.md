@@ -146,7 +146,7 @@ The data given here is to give you a generic idea and how to interact with the A
         ]
     }
     ```
-    - On error, you will receive error message with `STATUS_NOT_FOUND 404`
+    - On error, you will receive error message with `STATUS_BAD_REQUEST 400`
 
 5. To update Annotation related to the video, please see the following details:
     - URL: `localhost:8080/api/v1/updateAnnotation/{video_url}/{type}`. 
