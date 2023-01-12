@@ -77,6 +77,7 @@ func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 		}
 	}
 
+	// If there were not data present in the record. Simply add the item
 	_, err := db.Exec("INSERT INTO videos (video_id, video_url, metadata, annotations) VALUES (?, ?, ?, ?)", videoData.ID, videoData.URL, string(metadataJSON), string(annotationsJSON))
 	if err != nil {
 		return nil, err.Error()
@@ -109,36 +110,86 @@ func AllAnnotations(db *sql.DB, videoURL string) ([]Annotation, string) {
 	return video.ANNOTATIONS, ""
 }
 
-// func AddAdditionalNotes(videoURL, annotationType, notes string) (*Video, string) {
-// 	if notes != "" || len(notes) > 0 {
-// 		for _, video := range videos {
-// 			if videoURL == video.URL {
-// 				for index, annotation := range video.ANNOTATIONS {
-// 					if annotationType == annotation.TYPE {
-// 						annotation.ADDITIONALNOTES = append(annotation.ADDITIONALNOTES, notes)
+func AddAdditionalNotes(db *sql.DB, videoURL, annotationType, notes string) (*Video, string) {
+	var updatedVideoItem Video
+	var metadataJSON []byte
+	var annotationsJSON []byte
 
-// 						video.ANNOTATIONS[index].ADDITIONALNOTES = annotation.ADDITIONALNOTES
-// 						return &video, ""
-// 					}
-// 				}
+	if notes != "" || len(notes) > 0 {
+		currentVideoList, err := AllVideos(db)
+		if err != "" {
+			return nil, err
+		}
 
-// 				return nil, "No annotation type was found to add additional notes"
-// 			}
-// 		}
+		for _, video := range *currentVideoList {
+			if videoURL == video.URL {
+				for index, annotation := range video.ANNOTATIONS {
+					if annotationType == annotation.TYPE {
+						annotation.ADDITIONALNOTES = append(annotation.ADDITIONALNOTES, notes)
 
-// 		return nil, "No video exists to show the annotations details"
+						// Workaround for updating the record with PRIMARY KEY
+						video.ANNOTATIONS[index].ADDITIONALNOTES = annotation.ADDITIONALNOTES
+						jsonAnnotations, _ := json.Marshal(video.ANNOTATIONS)
+
+						_, updateError := db.Exec("UPDATE videos SET annotations = ? WHERE video_url = ?", string(jsonAnnotations), videoURL)
+						if updateError != nil {
+							return nil, updateError.Error()
+						}
+
+						queryError := db.QueryRow("SELECT * FROM videos WHERE video_url = ?", videoURL).
+							Scan(&updatedVideoItem.ID, &updatedVideoItem.URL, &metadataJSON, &annotationsJSON)
+						if queryError != nil {
+							return nil, queryError.Error()
+						}
+
+						// Adding the updated data to the current updated Video item
+						json.Unmarshal(metadataJSON, &updatedVideoItem.METADATA)
+						json.Unmarshal(annotationsJSON, &updatedVideoItem.ANNOTATIONS)
+
+						return &updatedVideoItem, ""
+					}
+				}
+
+				return nil, fmt.Sprintf("No annotation with type '%s' was found to add additional notes", annotationType)
+			}
+		}
+
+		return nil, fmt.Sprintf("No video with the URL '%s' exists to show the annotations details", videoURL)
+	}
+
+	return nil, "Empty notes were passed. Please add and try again"
+}
+
+// func UpdateAnnotationDetails(db *sql.DB, videoURL, annotationType string, newAnnotation Annotation) (*Video, string) {
+// 	var updatedVideoItem Video
+// 	var metadataJSON []byte
+// 	var annotationsJSON []byte
+
+// 	currentVideoList, err := AllVideos(db)
+// 	if err != "" {
+// 		return nil, err
 // 	}
 
-// 	return nil, "Empty notes were passed. Please add and try again"
-// }
-
-// func UpdateAnnotationDetails(videoURL, annotationType string, newAnnotation Annotation) (*Video, string) {
-// 	for _, video := range videos {
+// 	for _, video := range *currentVideoList {
 // 		if videoURL == video.URL {
-// 			for index, annotation := range video.ANNOTATIONS {
+// 			for _, annotation := range video.ANNOTATIONS {
 // 				if annotationType == annotation.TYPE {
-// 					video.ANNOTATIONS[index] = newAnnotation
-// 					return &video, ""
+// 					_, err := db.Exec("UPDATE annotations SET annotation = ? WHERE type = ?", annotation, annotationType)
+// 					if err != nil {
+// 						return nil, fmt.Sprintf("No annotation with type '%s' was found to add additional notes", annotationType)
+// 					}
+
+// 					// Now getting the updated Video data from the updated list
+// 					queryError := db.QueryRow("SELECT video_id, video_url, metadata, annotations FROM videos WHERE video_url = ?", videoURL).
+// 						Scan(&updatedVideoItem.ID, &updatedVideoItem.URL, &metadataJSON, &annotationsJSON)
+// 					if queryError != nil {
+// 						return nil, queryError.Error()
+// 					}
+
+// 					json.Unmarshal(metadataJSON, &updatedVideoItem.METADATA)
+// 					json.Unmarshal(annotationsJSON, &updatedVideoItem.ANNOTATIONS)
+
+// 					return &updatedVideoItem, ""
 // 				}
 // 			}
 

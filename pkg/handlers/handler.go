@@ -65,32 +65,32 @@ func (handler *RouterHandler) GetAllAnnotations(w http.ResponseWriter, r *http.R
 	json.NewEncoder(w).Encode(annotations)
 }
 
-// func (handler *RouterHandler) UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Content-Type", "application/json")
+func (handler *RouterHandler) UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 
-// 	err := r.ParseMultipartForm(32 << 20)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		return
-// 	}
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
-// 	updatedVideoData, errorMessage := source.AddAdditionalNotes(
-// 		handler.Database,
-// 		r.FormValue("video_url"),
-// 		r.FormValue("type"),
-// 		r.FormValue("notes"),
-// 	)
+	updatedVideoData, errorMessage := source.AddAdditionalNotes(
+		handler.Database,
+		r.FormValue("video_url"),
+		r.FormValue("type"),
+		r.FormValue("notes"),
+	)
 
-// 	if errorMessage != "" {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
 
-// 		return
-// 	}
+		return
+	}
 
-// 	w.WriteHeader(http.StatusCreated)
-// 	json.NewEncoder(w).Encode(updatedVideoData)
-// }
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(updatedVideoData)
+}
 
 // func UpdateAnnotation(w http.ResponseWriter, r *http.Request) {
 // 	var annotationDetails source.Annotation
