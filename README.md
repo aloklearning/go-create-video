@@ -36,7 +36,7 @@ This project checks the following features:
 The project has the following as per the requirements:
 
 - [x] A data model of the database. You can find it [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png).
-- [x] Restful API to manage videos and annotations with basic API security. The details has been shared in this README as well as in the [ROUTES README]((https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers))
+- [x] Restful API to manage videos and annotations with basic API security. The details has been shared in this `README` as well as in the [ROUTES README](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers).
 - [x] Provide a docker image to run your solution. The image has been hosted successfully on the [Docker Hub](https://hub.docker.com/). Here is the how you can get my image and run the application on your system: `docker pull alokkumar830/go-create-video:latest` 
 
 ## Getting Started
