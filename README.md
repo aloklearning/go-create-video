@@ -5,6 +5,7 @@
     - **Annotations:** An annotation allows us to capture time related information about the video. For example, we may want to create an annotation that references to a part of the video between 00:04:00 to 00:05:00 that contains an advertisement. 
 - This project allows you to store the data and access it via various API routes mentioned in the below section
 - This project comes with a persistant lightweighted database `SQLite3`.
+- The **data model** of the database will be found [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png)
 
 ## Project Checklists
 
