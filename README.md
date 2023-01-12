@@ -1,5 +1,9 @@
 # Go Create Videos
 
+[![made-with-go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](https://www.go.org/)
+[![GitHub license](https://badgen.net/github/license/Naereen/Strapdown.js)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+[![build](https://img.shields.io/appveyor/build/gruntjs/grunt)](https://pub.dev/packages/flutter_bounce#-analysis-tab-)
+
 - This project is a simple RESTful API for managing the video with the following details:
     - **Metadata:** A set of data that describes and gives information about other data.
     - **Annotations:** An annotation allows us to capture time related information about the video. For example, we may want to create an annotation that references to a part of the video between 00:04:00 to 00:05:00 that contains an advertisement. 
