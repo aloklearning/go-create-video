@@ -215,39 +215,53 @@ func UpdateAnnotationDetails(db *sql.DB, videoURL, annotationType string, newAnn
 	return nil, "No video exists to show the annotations details"
 }
 
-// func DeleteAnnotationData(videoURL, annotationType string) (*Video, string) {
-// 	for videoIndex, video := range videos {
-// 		if videoURL == video.URL {
-// 			for index, annotation := range video.ANNOTATIONS {
-// 				if annotationType == annotation.TYPE {
-// 					video.ANNOTATIONS = append(video.ANNOTATIONS[:index], video.ANNOTATIONS[index+1:]...)
+func DeleteAnnotationData(db *sql.DB, videoURL, annotationType string) (*Video, string) {
+	var updatedVideoItem Video
+	var metadataJSON []byte
+	var annotationsJSON []byte
 
-// 					// To keep the updated element in the main data
-// 					videos[videoIndex] = video
-// 					return &video, ""
-// 				}
-// 			}
+	currentVideoList, err := AllVideos(db)
+	if err != "" {
+		return nil, err
+	}
 
-// 			return nil, "No annotation type was found to delete the annotation"
-// 		}
-// 	}
+	for _, video := range *currentVideoList {
+		if videoURL == video.URL {
+			for index, annotation := range video.ANNOTATIONS {
+				if annotationType == annotation.TYPE {
+					video.ANNOTATIONS = append(video.ANNOTATIONS[:index], video.ANNOTATIONS[index+1:]...)
+					video.METADATA.MODIFIEDAT = time.Now() // modifications timing capture and updated
 
-// 	return nil, "No video exists to show the annotations details"
-// }
+					jsonMetadata, _ := json.Marshal(video.METADATA)
+					jsonAnnotations, _ := json.Marshal(video.ANNOTATIONS)
+
+					_, updateError := db.Exec("UPDATE videos SET metadata = ?, annotations = ? WHERE video_url = ?", string(jsonMetadata), string(jsonAnnotations), videoURL)
+					if updateError != nil {
+						return nil, updateError.Error()
+					}
+
+					queryError := db.QueryRow("SELECT * FROM videos WHERE video_url = ?", videoURL).
+						Scan(&updatedVideoItem.ID, &updatedVideoItem.URL, &metadataJSON, &annotationsJSON)
+					if queryError != nil {
+						return nil, queryError.Error()
+					}
+
+					// Adding the updated data to the current updated Video item
+					json.Unmarshal(metadataJSON, &updatedVideoItem.METADATA)
+					json.Unmarshal(annotationsJSON, &updatedVideoItem.ANNOTATIONS)
+
+					return &updatedVideoItem, ""
+				}
+			}
+
+			return nil, fmt.Sprintf("No annotation with type '%s' was found to delete the annotation", annotationType)
+		}
+	}
+
+	return nil, "No video exists to show the annotations details"
+}
 
 func DeleteCompleteVideoData(db *sql.DB, videoURL string) (string, string) {
-	// DELETE Meta Data
-	_, metadataError := db.Exec("DELETE FROM metadata WHERE author in (SELECT metadata.author FROM metadata INNER JOIN videos ON metadata.author = videos.metadata WHERE video_url = ?)", videoURL)
-	if metadataError != nil {
-		return "", fmt.Sprintf("Metadata deletion error %s", metadataError.Error())
-	}
-
-	// DELETE Annotations
-	_, annnotationError := db.Exec("DELETE FROM annotations WHERE type in (SELECT annotations.type FROM annotations INNER JOIN videos ON annotations.type = videos.annotations WHERE video_url = ?)", videoURL)
-	if annnotationError != nil {
-		return "", fmt.Sprintf("Annotation deletion error %s", annnotationError.Error())
-	}
-
 	// DELETE Videos
 	_, videosError := db.Exec("DELETE FROM videos WHERE video_url = ?", videoURL)
 	if videosError != nil {

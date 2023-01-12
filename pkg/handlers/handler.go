@@ -119,30 +119,31 @@ func (handler *RouterHandler) UpdateAnnotation(w http.ResponseWriter, r *http.Re
 	json.NewEncoder(w).Encode(updatedVideoData)
 }
 
-// func DeleteAnnotation(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Content-Type", "application/json")
+func (handler *RouterHandler) DeleteAnnotation(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 
-// 	err := r.ParseMultipartForm(32 << 20)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		return
-// 	}
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
-// 	updatedVideoData, errorMessage := source.DeleteAnnotationData(
-// 		r.FormValue("video_url"),
-// 		r.FormValue("type"),
-// 	)
+	updatedVideoData, errorMessage := source.DeleteAnnotationData(
+		handler.Database,
+		r.FormValue("video_url"),
+		r.FormValue("type"),
+	)
 
-// 	if errorMessage != "" {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
 
-// 		return
-// 	}
+		return
+	}
 
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(updatedVideoData)
-// }
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(updatedVideoData)
+}
 
 func (handler *RouterHandler) DeleteVideo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
