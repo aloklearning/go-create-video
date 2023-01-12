@@ -208,7 +208,7 @@ func UpdateAnnotationDetails(db *sql.DB, videoURL, annotationType string, newAnn
 				}
 			}
 
-			return nil, "No annotation type was found to update the annotation"
+			return nil, fmt.Sprintf("No annotation with type '%s' was found to update the annotation", annotationType)
 		}
 	}
 
