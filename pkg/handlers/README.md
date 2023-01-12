@@ -164,7 +164,7 @@ The data given here is to give you a generic idea and how to interact with the A
         ]
     }
     ```
-    - On successful submission of the data, you will recieve an updated video annotations without the removed annotation along with the relevent video data with `STATUS_OK 200`:
+    - On successful submission of the data, you will recieve an updated video annotations along with the relevent video data with `STATUS_OK 200`:
     ```json
     {
         "video_id": "d62a7dc2-03e3-402f-b59f-6e88e8279e60",
@@ -177,8 +177,6 @@ The data given here is to give you a generic idea and how to interact with the A
             "total_duration": 300
         },
         "annotations": [
-            // annotation was removed with the video url passed
-            // Below is just the remaining annotation in the system after the deletion
             {
                 "annotation_id": "82a10be3-d863-4734-bab9-e840cf754490",
                 "start_time": 0,
@@ -199,7 +197,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - URL: `localhost:8080/api/v1/deleteAnnotation`
     - REQUEST TYPE: `DELETE`
     - You need to pass the `video_url`, and `type` in the param key inside `form-data` of `Body`.
-    - On successful operation, you will receieve **Changed Video data** with `STATUS_OK 200`:
+    - On successful operation, you will receieve **Changed Annotation data** with the relevant video information with `STATUS_OK 200`:
     ```json
     {
         "video_id": "d62a7dc2-03e3-402f-b59f-6e88e8279e60",
@@ -212,6 +210,7 @@ The data given here is to give you a generic idea and how to interact with the A
             "total_duration": 300
         },
         "annotations": [
+            // Removed annotation doesn't exists in the system for the relevant video
             {
                 "annotation_id": "c11919d9-1948-4daf-95ea-c21ea12aacf6",
                 "start_time": 0,
