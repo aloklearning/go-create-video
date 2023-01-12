@@ -118,7 +118,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - URL: `localhost:8080/api/v1/updateAdditionalNotes`
     - REQUEST TYPE: `PUT`
     - You need to pass the `video_url`, `type`, and `notes` in the param key inside `form-data` of `Body`. 
-    - On success you will receive all the annotations with your update one like below with `STATUS_CREATED 201`:
+    - On success you will receive all the annotations with your updated annotation like below with `STATUS_CREATED 201`:
     ```json
     {
         "video_id": "9fe0a603-6b5e-4a3e-91ff-b4eedd1538e8",
