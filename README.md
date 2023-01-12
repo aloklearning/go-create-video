@@ -4,11 +4,13 @@
     - **Metadata:** A set of data that describes and gives information about other data.
     - **Annotations:** An annotation allows us to capture time related information about the video. For example, we may want to create an annotation that references to a part of the video between 00:04:00 to 00:05:00 that contains an advertisement. 
 - This project allows you to store the data and access it via various API routes mentioned in the below section
+- This project comes with a persistant lightweighted database `SQLite3`.
 
 ## Project Checklists
 
 This project checks the following features:
 - [x] Basic `API Key` authentication in place for all the APIs.
+- [x] Have a peristant database `SQLite3`.
 - [x] Creating the video with the relevant `metadata` and `annotations`.
 - [x] List all `annotations` related to the Video.
 - [x] Add `additional notes` by specifying the `annotation type` for the relevant video.
@@ -50,6 +52,10 @@ go run ./..
 
 The project run on the localhost port `8080`. Please access the APIs via `localhost:8080/api/v1/...`.
 
+### Routes
+
+For best maintainence the routes section has a separate README, which can be found here: [Route]()
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/aloklearning/go-create-video/blob/main/LICENSE.md) file for details
@@ -57,6 +63,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 ## Links
 
 - Install go via [Official Website of Go](https://go.dev/)
+- Learn more about the famous go sqlite package [go-sqlite3](https://pkg.go.dev/github.com/mattn/go-sqlite3)
 
 
 
