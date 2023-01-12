@@ -54,7 +54,21 @@ The project run on the localhost port `8080`. Please access the APIs via `localh
 
 ### Routes
 
-For best maintainence the routes section has a separate README, which can be found here: [Route](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers)
+For best maintainence of details, the routes section has a separate README which can be found here: [Route](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers)
+
+## Assumptions
+
+- The creation of the video and the annotations has been done in a single task, assuming it to be the part of the video itself. It can be added by submitting the full payload with the required data as mentioned in the [Routes README](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers)
+- For the ease of computations and processing time related data, such as, `total_duration`, `start_time`, `end_time` are accepted as `INTEGER`. Further more, they have to be submitted in seconds data. For example, if you have a video having 5 minutes as a total duration, so you will submit the details `300` which in seconds equals **5 minutes**:
+```json
+{
+    "video_url": "Some URL",
+    "metadata": {
+        "total_duration": 300
+    }
+}
+```
+    - Same goes for `start_time` and `end_time`.
 
 ## License
 
