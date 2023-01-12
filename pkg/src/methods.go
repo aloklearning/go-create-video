@@ -179,6 +179,13 @@ func UpdateAnnotationDetails(db *sql.DB, videoURL, annotationType string, newAnn
 		if videoURL == video.URL {
 			for index, annotation := range video.ANNOTATIONS {
 				if annotationType == annotation.TYPE {
+					// Not allowing the user to update the data with out of bound end time related to the video
+					if video.ANNOTATIONS[index].ENDTIME > video.METADATA.DURATION {
+						errMessage := fmt.Sprintf("Your annotations end time %d is out of bounds of duration of the video %d",
+							video.ANNOTATIONS[index].ENDTIME, video.METADATA.DURATION)
+						return nil, errMessage
+					}
+
 					// Maintaing a copy of the ID
 					annotationID := video.ANNOTATIONS[index].ID
 
