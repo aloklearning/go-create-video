@@ -81,7 +81,7 @@ The data given here is to give you a generic idea and how to interact with the A
         }
     ]
     ```
-    - On having no data, you will get `STATUS_OK 200` with a data `nil`.
+    - On having no data, you will get `STATUS_OK 200` with a data `null`.
 
 3. To list all annotations related to the video, here are the following details:
     - URL: `localhost:8080/api/v1/annotations`
