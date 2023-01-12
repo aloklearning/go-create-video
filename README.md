@@ -52,7 +52,7 @@ The project run on the localhost port `8080`. Please access the APIs via `localh
 
 ### License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/aloklearning/go-create-video/blob/main/LICENSE.md) file for details
 
 
 
