@@ -87,6 +87,7 @@ All the assumptions has been made around the agenda of *achieving the work with 
         - Handlers
         - DB Connection Check
         - Methods
+        - Some typos or inefficient codes which were commited while working on the code in the given time contraint
     - Database tables like `annotations` could have been added with a `FOREIGN KEY` relationship, making the `DELETE` and `UPDATE` function handled more from the SQL query side, rather a bit workaround.
     - More convenient **vairable names** and a bit of using **functional programming** could have save some repitition in the project. Although I have tried using the best and convenient name possible and tried not to use a lot of duplicate functions or logics.
     - The data model could have been improved. I have tried to use the best convenient to the best of my knowledge, and I thrive to improve and learn to updgrade my skillset, as I believe I am still a learner and the data has not been produced in a very much proficient way.
