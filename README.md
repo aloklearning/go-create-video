@@ -54,7 +54,7 @@ The project run on the localhost port `8080`. Please access the APIs via `localh
 
 ### Routes
 
-For best maintainence the routes section has a separate README, which can be found here: [Route]()
+For best maintainence the routes section has a separate README, which can be found here: [Route](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers)
 
 ## License
 
