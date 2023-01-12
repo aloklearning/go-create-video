@@ -139,7 +139,7 @@ The data given here is to give you a generic idea and how to interact with the A
                 "annotation": "Some New Annotation",
                 "additional_notes": [
                     "New Additional Notes",
-                    "Checking with timings modification"
+                    "Checking with timings modification" // This one was added when you passed notes
                 ]
             },
             ...
