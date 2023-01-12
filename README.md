@@ -50,9 +50,13 @@ go run ./..
 
 The project run on the localhost port `8080`. Please access the APIs via `localhost:8080/api/v1/...`.
 
-### License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/aloklearning/go-create-video/blob/main/LICENSE.md) file for details
+
+## Links
+
+- Install go via [Official Website of Go](https://go.dev/)
 
 
 
