@@ -40,6 +40,8 @@ This project checks the following features:
 
 ### Running the Project
 
+#### 1. Normally
+
 To run the project there are few ways, but I have chosen to use a very simple one:
 - Run the below command after going into the project's directory
 ```
@@ -49,6 +51,15 @@ cd cmd && go run .
 - In case you fail to get the response, use the below command after going into the project's directory:
 ```
 go run ./..
+```
+
+#### 2. With Docker
+
+If you have docker, you can simply use the `Dockerfile` present in this project. Simply run the following command to build the image and run the project in your system
+
+```docker
+docker build --tag go-create-video .
+docker run -dp 8080:8080 go-create-video
 ```
 
 **Important:** You need to be inside the same directory of `main.go`, so ensure the path before running the project.
