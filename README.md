@@ -5,7 +5,7 @@
     - **Annotations:** An annotation allows us to capture time related information about the video. For example, we may want to create an annotation that references to a part of the video between 00:04:00 to 00:05:00 that contains an advertisement. 
 - This project allows you to store the data and access it via various API routes mentioned in the below section
 - This project comes with a persistant lightweighted database `SQLite3`.
-- The **data model** of the database will be found [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png)
+- The **data model** of the database will be found [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png).
 
 ## Project Checklists
 
@@ -76,6 +76,7 @@ All the assumptions has been made around the agenda of *achieving the work with 
 - Assumptions has been made that there is no hard neccessity of adding test cases, which save a bit of time while completing the project.
 - Assumptions has been made around not having a **complete** `Relational Database`. The tables were created having the idea to be able to store the data and to be a part of the video. Although the data model will explain how it has been linked. I have talked more about this thing in the [Improvement Section](https://github.com/aloklearning/go-create-video#improvements) below.
 - It has been assumed that the by `Annotation Details` addition we mean the whole `Annotation Details` added to the **list/slice/array** of the videos items and **not** the specific items inside the Annotation Details.
+- Data Modal of the database could be provided using a `PNG` file, with any data model type. It can be found [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png)
 
 ## Improvements
 
@@ -88,7 +89,7 @@ All the assumptions has been made around the agenda of *achieving the work with 
         - Methods
     - Database tables like `annotations` could have been added with a `FOREIGN KEY` relationship, making the `DELETE` and `UPDATE` function handled more from the SQL query side, rather a bit workaround.
     - More convenient **vairable names** and a bit of using **functional programming** could have save some repitition in the project. Although I have tried using the best and convenient name possible and tried not to use a lot of duplicate functions or logics.
-
+    - The data model could have been improved. I have tried to use the best convenient to the best of my knowledge, and I thrive to improve and learn to updgrade my skillset, as I believe I am still a learner and the data has not been produced in a very much proficient way.
 
 ## License
 
