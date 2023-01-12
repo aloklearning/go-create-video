@@ -6,6 +6,7 @@ import (
 	source "go-create-video/pkg/src"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -92,30 +93,31 @@ func (handler *RouterHandler) UpdateAnnotationAdditionalNotes(w http.ResponseWri
 	json.NewEncoder(w).Encode(updatedVideoData)
 }
 
-// func UpdateAnnotation(w http.ResponseWriter, r *http.Request) {
-// 	var annotationDetails source.Annotation
-// 	w.Header().Set("Content-Type", "application/json")
+func (handler *RouterHandler) UpdateAnnotation(w http.ResponseWriter, r *http.Request) {
+	var annotationDetails source.Annotation
+	w.Header().Set("Content-Type", "application/json")
 
-// 	paramData := mux.Vars(r)
+	paramData := mux.Vars(r)
 
-// 	_ = json.NewDecoder(r.Body).Decode(&annotationDetails)
+	_ = json.NewDecoder(r.Body).Decode(&annotationDetails)
 
-// 	updatedVideoData, errorMessage := source.UpdateAnnotationDetails(
-// 		paramData["video_url"],
-// 		paramData["type"],
-// 		annotationDetails,
-// 	)
+	updatedVideoData, errorMessage := source.UpdateAnnotationDetails(
+		handler.Database,
+		paramData["video_url"],
+		paramData["type"],
+		annotationDetails,
+	)
 
-// 	if errorMessage != "" {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
+	if errorMessage != "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(source.Error{ErrorMessage: errorMessage})
 
-// 		return
-// 	}
+		return
+	}
 
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(updatedVideoData)
-// }
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(updatedVideoData)
+}
 
 // func DeleteAnnotation(w http.ResponseWriter, r *http.Request) {
 // 	w.Header().Set("Content-Type", "application/json")

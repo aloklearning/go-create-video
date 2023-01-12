@@ -36,7 +36,7 @@ func main() {
 	router.HandleFunc("/api/v1/createVideo", routerHandler.CreateVideo).Methods("POST")
 	router.HandleFunc("/api/v1/annotations", routerHandler.GetAllAnnotations).Methods("GET")
 	router.HandleFunc("/api/v1/updateAdditionalNotes", routerHandler.UpdateAnnotationAdditionalNotes).Methods("PUT")
-	// router.HandleFunc("/api/v1/updateAnnotation/{video_url}/{type}", routes.UpdateAnnotation).Methods("PUT")
+	router.HandleFunc("/api/v1/updateAnnotation/{video_url}/{type}", routerHandler.UpdateAnnotation).Methods("PUT")
 	// router.HandleFunc("/api/v1/deleteAnnotation", routes.DeleteAnnotation).Methods("DELETE")
 	router.HandleFunc("/api/v1/deleteVideo", routerHandler.DeleteVideo).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8080", router))
