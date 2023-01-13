@@ -53,12 +53,7 @@ The project has the following as per the requirements:
 To run the project there are few ways, but I have chosen to use a very simple one:
 - Run the below command after going into the project's directory
 ```
-cd cmd && go run .
-```
-
-- In case you fail to get the response, use the below command after going into the project's directory:
-```
-go run ./..
+go run .
 ```
 
 #### 2. With Docker
