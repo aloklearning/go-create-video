@@ -1,13 +1,13 @@
 # Using the official Golang image as the base image
 FROM golang:latest
 
-# Copying all the project assets to the the /app in the container
+# Copying all the project items to the the /app in the container
 ADD . /app
 
 # Setting the working directory in the container
 WORKDIR /app
 
-# Copying everything from the project to the app working directory
+# Copying dependencies files to the app working directory
 COPY go.mod ./
 COPY go.sum ./
 

@@ -103,7 +103,7 @@ All the assumptions has been made around the agenda of *achieving the work with 
 
 ## Improvements
 
-- It is a universal truth that the project can always be improved. And while working with the this project, I do have some improvements pointers, which I believe could make the project more `robuts`, `clean`, and `efficient`. 
+- It is a universal truth that the project can always be improved. And while working with the this project, I do have some improvements pointers, which I believe could make the project more `robust`, `clean`, and `efficient`. 
 - Due to the time contraint, it was a bit difficult to achieve all of them, but if provided time, I could talk or add those suggestions in the future:
     - **Error responses/messages** in a some places could be added and in some places could be improved with a better `status code handling`.
     - It is very much evident that the project doesn't have any **test cases** running around the project. It can be added to things like:
@@ -122,7 +122,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 ## Links
 
 - Install go via [Official Website of Go](https://go.dev/)
-- [Get Started With Docker](https://www.youtube.com/watch?v=iqqDU2crIEQ&t=1002s)
+- [Build your go image](https://docs.docker.com/language/golang/build-images/)
+- [Get Started With Docker Hub](https://www.youtube.com/watch?v=iqqDU2crIEQ&t=1002s)
 - [Data Models and Its Type in DBMS](https://afteracademy.com/blog/what-is-data-model-in-dbms-and-what-are-its-types/)
 - Learn more about the famous go sqlite package [go-sqlite3](https://pkg.go.dev/github.com/mattn/go-sqlite3)
 
