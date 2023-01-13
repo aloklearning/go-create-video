@@ -69,7 +69,7 @@ docker run -dp 8080:8080 go-create-video
 
 ### Development Server
 
-The project run on the localhost port `8080`. Please access the APIs via `localhost:8080/api/v1/...`.
+The project run on the localhost port `8080`. Please access the APIs via `localhost:8080/api/v1/{your_specicific_routes}`.
 
 ### Routes
 
