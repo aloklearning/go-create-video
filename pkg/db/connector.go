@@ -8,7 +8,7 @@ import (
 )
 
 func DBConnect() (*sql.DB, string) {
-	db, err := sql.Open("sqlite3", "pkg/db/videos.db")
+	db, err := sql.Open("sqlite3", "../pkg/db/videos.db")
 	if err != nil {
 		return nil, fmt.Sprintf("Failed to connect to the DB due to %v", err)
 	}
