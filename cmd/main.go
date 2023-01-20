@@ -14,22 +14,21 @@ import (
 func main() {
 
 	// Connecting to the DB
-	vidoeDB, status := db.DBConnect()
-	if status != "Successfully Connected to the DB" {
-		fmt.Printf("%s", status)
+	videoDB := db.DBConnect()
+	if videoDB == nil {
 		return
 	}
 
-	defer vidoeDB.Close()
+	defer videoDB.Close()
 
-	err := db.CreateTables(vidoeDB)
+	err := db.CreateTables(videoDB)
 	if err != "" {
 		fmt.Printf("%s", err)
 		return
 	}
 
 	router := mux.NewRouter()
-	routerHandler := &routes.RouterHandler{Database: vidoeDB}
+	routerHandler := &routes.RouterHandler{Database: videoDB}
 
 	// Route Handlers / Endpoints
 	router.HandleFunc("/api/v1/videos", routerHandler.GetAllVideos).Methods("GET")

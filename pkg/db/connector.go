@@ -7,13 +7,15 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func DBConnect() (*sql.DB, string) {
+// Standard practise to not return error as String
+// Or just return nil when something happens in GO
+func DBConnect() *sql.DB {
 	db, err := sql.Open("sqlite3", "../pkg/db/videos.db")
 	if err != nil {
-		return nil, fmt.Sprintf("Failed to connect to the DB due to %v", err)
+		return nil
 	}
 
-	return db, "Successfully Connected to the DB"
+	return db
 }
 
 func CreateTables(db *sql.DB) string {
