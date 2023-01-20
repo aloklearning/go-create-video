@@ -39,6 +39,13 @@ The project has the following as per the requirements:
 - [x] Restful API to manage videos and annotations with basic API security. The details has been shared in this `README` as well as in the [ROUTES README](https://github.com/aloklearning/go-create-video/tree/main/pkg/handlers).
 - [x] Provide a docker file to build the image to run your solution.
 
+## Recent Improvements/Fixes
+
+- [x] Following a modern project layout and put the `main.go` file in a cmd folder.
+- [x] Removing the line 5 in the Dockerfile `ADD . /app` which copies every file in the repo into the docker container. This adds unnecessary files to the container, and takes away any advantages of Docker layers in the build, since a change to any file in the repo means the ADD command will always need to make a new layer.
+- [x] Having DBConnect in pkg/db/connector.go return a `nil` or `db object` in respect of the string, as this is the standard pattern in Go. For more context on see [why returning a string is also not good](https://stackoverflow.com/questions/1277682/best-practices-for-handling-error-strings)
+- [x] Removed manually calling the authentication function at the start of each handler function could lead to security issues if you forget to add it to any new handler. Added middleware for authentication to avoid this issue.
+
 ## Getting Started
 
 ### Pre-Requisites
@@ -98,7 +105,7 @@ All the assumptions has been made around the agenda of *achieving the work with 
 - It has been assumed that the by `Annotation Details` addition we mean the whole `Annotation Details` added to the **list/slice/array** of the videos items and **not** the specific items inside the Annotation Details.
 - Data Modal of the database could be provided using a `PNG` file, with any data model type. It can be found [here](https://github.com/aloklearning/go-create-video/blob/main/assets/ER%20Diagram%20Video.png)
 
-## Improvements
+## Scope for Improvements
 
 - It is a universal truth that the project can always be improved. And while working with the this project, I do have some improvements pointers, which I believe could make the project more `robust`, `clean`, and `efficient`. 
 - Due to the time contraint, it was a bit difficult to achieve all of them, but if provided time, I could talk or add those suggestions in the future:
