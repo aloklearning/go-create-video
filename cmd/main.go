@@ -28,6 +28,9 @@ func main() {
 	}
 
 	router := mux.NewRouter()
+
+	// Registering the middleware
+	router.Use(routes.AuthenticationMiddleware)
 	routerHandler := &routes.RouterHandler{Database: videoDB}
 
 	// Route Handlers / Endpoints

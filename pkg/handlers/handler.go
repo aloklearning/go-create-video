@@ -15,12 +15,6 @@ type RouterHandler struct {
 }
 
 func (handler *RouterHandler) GetAllVideos(w http.ResponseWriter, r *http.Request) {
-	checkAuthStatus := authentication(r.Header.Get("api_key"))
-	if checkAuthStatus != 200 {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
 	videos, errorMessage := source.AllVideos(handler.Database)
 	if errorMessage != "" {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -35,12 +29,6 @@ func (handler *RouterHandler) GetAllVideos(w http.ResponseWriter, r *http.Reques
 }
 
 func (handler *RouterHandler) CreateVideo(w http.ResponseWriter, r *http.Request) {
-	checkAuthStatus := authentication(r.Header.Get("api_key"))
-	if checkAuthStatus != 200 {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
 	var videoData source.Video
 
 	w.Header().Set("Content-Type", "application/json")
@@ -59,12 +47,6 @@ func (handler *RouterHandler) CreateVideo(w http.ResponseWriter, r *http.Request
 }
 
 func (handler *RouterHandler) GetAllAnnotations(w http.ResponseWriter, r *http.Request) {
-	checkAuthStatus := authentication(r.Header.Get("api_key"))
-	if checkAuthStatus != 200 {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
 	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -85,12 +67,6 @@ func (handler *RouterHandler) GetAllAnnotations(w http.ResponseWriter, r *http.R
 }
 
 func (handler *RouterHandler) UpdateAnnotationAdditionalNotes(w http.ResponseWriter, r *http.Request) {
-	checkAuthStatus := authentication(r.Header.Get("api_key"))
-	if checkAuthStatus != 200 {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
 	w.Header().Set("Content-Type", "application/json")
 
 	err := r.ParseMultipartForm(32 << 20)
@@ -118,12 +94,6 @@ func (handler *RouterHandler) UpdateAnnotationAdditionalNotes(w http.ResponseWri
 }
 
 func (handler *RouterHandler) UpdateAnnotation(w http.ResponseWriter, r *http.Request) {
-	checkAuthStatus := authentication(r.Header.Get("api_key"))
-	if checkAuthStatus != 200 {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
 	var annotationDetails source.Annotation
 	w.Header().Set("Content-Type", "application/json")
 
@@ -150,12 +120,6 @@ func (handler *RouterHandler) UpdateAnnotation(w http.ResponseWriter, r *http.Re
 }
 
 func (handler *RouterHandler) DeleteAnnotation(w http.ResponseWriter, r *http.Request) {
-	checkAuthStatus := authentication(r.Header.Get("api_key"))
-	if checkAuthStatus != 200 {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
 	w.Header().Set("Content-Type", "application/json")
 
 	err := r.ParseMultipartForm(32 << 20)
@@ -182,12 +146,6 @@ func (handler *RouterHandler) DeleteAnnotation(w http.ResponseWriter, r *http.Re
 }
 
 func (handler *RouterHandler) DeleteVideo(w http.ResponseWriter, r *http.Request) {
-	checkAuthStatus := authentication(r.Header.Get("api_key"))
-	if checkAuthStatus != 200 {
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
 	w.Header().Set("Content-Type", "application/json")
 
 	err := r.ParseMultipartForm(32 << 20)
