@@ -18,6 +18,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - URL: `localhost:8080/api/v1/createVideo`
     - RQUEST TYPE: `POST`
     - Payload should be submitted in the `raw` body like this. Assuming `Content-Type` has been added as `application/json` already:
+
         ```json
             {
                 "video_url": "Random Video URL",
@@ -42,6 +43,7 @@ The data given here is to give you a generic idea and how to interact with the A
         ```
     - If submitted correctly, you will get a `STATUS_CREATED 201`, and List of all Video along with your added video
     - In case you add an annotation having more `end_time` more than `total_duration` of the video, you will receieve `STATUS_BAD_REQUEST 400` with an error response like this:
+
     ```json
     {
         "error": "Your annotations end time {end_time} is out of bounds of duration of the video {total_duration}"
@@ -53,6 +55,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - REQUEST TYPE: `GET`
     - You need to pass the `video_url`, `type`, and `notes` in the param key inside `form-data` of `Body`.
     - Here is the sucess response with a `STATUS_OK 200`:
+
     ```json
     [
         {
@@ -88,6 +91,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - REQUEST TYPE: `GET`
     - You need to pass the `video_url` in the param key inside `form-data` of `Body`.
     - On success you will receive all the annotations like this with `STATUS_OK 200`:
+
     ```json
     [
         {
@@ -119,6 +123,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - REQUEST TYPE: `PUT`
     - You need to pass the `video_url`, `type`, and `notes` in the param key inside `form-data` of `Body`. 
     - On success you will receive all the annotations with your updated annotation like below with `STATUS_CREATED 201`:
+
     ```json
     {
         "video_id": "9fe0a603-6b5e-4a3e-91ff-b4eedd1538e8",
@@ -153,6 +158,7 @@ The data given here is to give you a generic idea and how to interact with the A
         - Video URL and Annotation type has to be passed as a route param. Failing which you will get a `STATUS_BAD_REQUEST 400`.
     - REQUEST TYPE: `PUT`
     - Payload has to be a full object of annotation which has to be updated inside the video system:
+
     ```json
     {
         "start_time": 0,
@@ -165,6 +171,7 @@ The data given here is to give you a generic idea and how to interact with the A
     }
     ```
     - On successful submission of the data, you will recieve an updated video annotations along with the relevent video data with `STATUS_OK 200`:
+
     ```json
     {
         "video_id": "d62a7dc2-03e3-402f-b59f-6e88e8279e60",
@@ -198,6 +205,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - REQUEST TYPE: `DELETE`
     - You need to pass the `video_url`, and `type` in the param key inside `form-data` of `Body`.
     - On successful operation, you will receieve **Changed Annotation data** with the relevant video information with `STATUS_OK 200`:
+    
     ```json
     {
         "video_id": "d62a7dc2-03e3-402f-b59f-6e88e8279e60",
@@ -231,6 +239,7 @@ The data given here is to give you a generic idea and how to interact with the A
     - REQUEST TYPE: `DELETE`
     - You need to pass the `video_url`, and `type` in the param key inside `form-data` of `Body`.
     - On success, you will receieve `STATUS_OK 200` with this response:
+    
     ```json
         "{Success: Video deleted successfully}"
     ```
