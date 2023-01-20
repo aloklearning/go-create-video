@@ -43,7 +43,7 @@ func Create(db *sql.DB, videoData Video) (*[]Video, string) {
 	videoData.METADATA.MODIFIEDAT = time.Now()
 
 	// Adding UUID to each annotation from backend
-	for index, _ := range videoData.ANNOTATIONS {
+	for index := range videoData.ANNOTATIONS {
 		videoData.ANNOTATIONS[index].ID = uuid.NewString()
 	}
 
